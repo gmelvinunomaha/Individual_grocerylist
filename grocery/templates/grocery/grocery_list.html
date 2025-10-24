@@ -1,0 +1,268 @@
+{% extends 'grocery/base.html' %}
+
+{% block title %}My Grocery List{% endblock %}
+
+{% block content %}
+<style>
+    h1 {
+        color: #000;
+        margin-bottom: 30px;
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+    }
+    
+    .add-item-form {
+        background: #f5f5f5;
+        padding: 25px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 30px;
+    }
+    
+    .add-item-form h3 {
+        margin-bottom: 20px;
+        color: #000;
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr auto;
+        gap: 15px;
+        align-items: end;
+    }
+    
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-group label {
+        margin-bottom: 6px;
+        color: #333;
+        font-weight: 500;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .form-group input,
+    .form-group select {
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        font-size: 14px;
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        background: white;
+        transition: border-color 0.2s;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #000;
+    }
+    
+    .btn {
+        padding: 10px 24px;
+        background: #000;
+        color: white;
+        border: none;
+        border-radius: 2px;
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: background 0.2s;
+    }
+    
+    .btn:hover {
+        background: #333;
+    }
+    
+    .search-box {
+        margin-bottom: 25px;
+    }
+    
+    .search-box input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        font-size: 15px;
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        background: white;
+    }
+    
+    .search-box input:focus {
+        outline: none;
+        border-color: #000;
+    }
+    
+    .items-list {
+        list-style: none;
+        border-top: 2px solid #000;
+    }
+    
+    .item {
+        background: white;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.2s;
+    }
+    
+    .item:hover {
+        background: #fafafa;
+    }
+    
+    .item-info {
+        flex: 1;
+    }
+    
+    .item-name {
+        font-size: 18px;
+        font-weight: 500;
+        color: #000;
+        margin-bottom: 6px;
+        font-family: 'Georgia', 'Times New Roman', serif;
+    }
+    
+    .item-details {
+        font-size: 13px;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .item-section {
+        display: inline-block;
+        background: #000;
+        color: white;
+        padding: 3px 12px;
+        border-radius: 2px;
+        font-size: 11px;
+        margin-left: 12px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+    
+    .delete-btn {
+        background: white;
+        color: #000;
+        border: 1px solid #000;
+        padding: 8px 18px;
+        border-radius: 2px;
+        cursor: pointer;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    
+    .delete-btn:hover {
+        background: #000;
+        color: white;
+    }
+    
+    .empty-message {
+        text-align: center;
+        color: #000;
+        padding: 60px 20px;
+        font-size: 16px;
+        font-style: normal;
+        border-top: 2px solid #000;
+        font-family: 'Georgia', 'Times New Roman', serif;
+    }
+    
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+        
+        .item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .delete-btn {
+            margin-top: 12px;
+            align-self: flex-end;
+        }
+    }
+</style>
+
+<h1>My Grocery List</h1>
+
+<!-- Add Item Form -->
+<div class="add-item-form">
+    <h3>Add New Item</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Item Name</label>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.quantity.id_for_label }}">Quantity</label>
+                {{ form.quantity }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.section.id_for_label }}">Section</label>
+                {{ form.section }}
+            </div>
+            <button type="submit" class="btn">Add Item</button>
+        </div>
+    </form>
+</div>
+
+<!-- Search Box -->
+<div class="search-box">
+    <form method="get">
+        <input 
+            type="text" 
+            name="search" 
+            placeholder="Search items..." 
+            value="{{ search_query }}"
+        >
+    </form>
+</div>
+
+<!-- Items List -->
+{% if items %}
+    <ul class="items-list">
+        {% for item in items %}
+        <li class="item">
+            <div class="item-info">
+                <div class="item-name">{{ item.name }}</div>
+                <div class="item-details">
+                    Quantity: {{ item.quantity }}
+                    <span class="item-section">{{ item.get_section_display }}</span>
+                </div>
+            </div>
+            <form method="post" action="{% url 'delete_item' item.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn" onclick="return confirm('Delete this item?')">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <div class="empty-message">
+        {% if search_query %}
+            No items found for "{{ search_query }}"
+        {% else %}
+            Grocery list is empty. Please add items.
+    {% endif %}
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -11,8 +11,11 @@
     
     .register-form h2 {
         text-align: center;
-        color: #333;
+        color: #000;
         margin-bottom: 30px;
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-weight: 600;
+        letter-spacing: -0.5px;
     }
     
     .form-group {
@@ -21,68 +24,81 @@
     
     .form-group label {
         display: block;
-        margin-bottom: 5px;
-        color: #555;
+        margin-bottom: 6px;
+        color: #333;
         font-weight: 500;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     
     .form-group input {
         width: 100%;
         padding: 12px;
-        border: 2px solid #ddd;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: border-color 0.3s;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        font-size: 14px;
+        font-family: 'Helvetica', 'Arial', sans-serif;
+        background: white;
+        transition: border-color 0.2s;
     }
     
     .form-group input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: #000;
     }
     
     .error {
-        color: #e74c3c;
+        color: #000;
         font-size: 14px;
         margin-top: 5px;
+        padding: 10px;
+        background: #f5f5f5;
+        border-left: 3px solid #000;
     }
     
     .help-text {
         font-size: 13px;
         color: #666;
         margin-top: 5px;
+        line-height: 1.4;
     }
     
     .btn {
         width: 100%;
         padding: 12px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #000;
         color: white;
         border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        font-weight: 600;
+        border-radius: 2px;
+        font-size: 14px;
+        font-weight: 500;
         cursor: pointer;
-        transition: transform 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: background 0.2s;
+        font-family: 'Helvetica', 'Arial', sans-serif;
     }
     
     .btn:hover {
-        transform: translateY(-2px);
+        background: #333;
     }
     
     .login-link {
         text-align: center;
         margin-top: 20px;
         color: #666;
+        font-size: 13px;
     }
     
     .login-link a {
-        color: #667eea;
-        text-decoration: none;
+        color: #000;
+        text-decoration: underline;
         font-weight: 600;
     }
     
     .login-link a:hover {
-        text-decoration: underline;
+        color: #666;
     }
 </style>
 
@@ -93,7 +109,7 @@
         {% csrf_token %}
         
         <div class="form-group">
-            <label for="id_username">Username:</label>
+            <label for="id_username">Username</label>
             {{ form.username }}
             {% if form.username.errors %}
                 <div class="error">{{ form.username.errors }}</div>
@@ -104,7 +120,7 @@
         </div>
         
         <div class="form-group">
-            <label for="id_password1">Password:</label>
+            <label for="id_password1">Password</label>
             {{ form.password1 }}
             {% if form.password1.errors %}
                 <div class="error">{{ form.password1.errors }}</div>
@@ -115,7 +131,7 @@
         </div>
         
         <div class="form-group">
-            <label for="id_password2">Confirm Password:</label>
+            <label for="id_password2">Confirm Password</label>
             {{ form.password2 }}
             {% if form.password2.errors %}
                 <div class="error">{{ form.password2.errors }}</div>
